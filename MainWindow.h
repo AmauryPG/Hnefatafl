@@ -13,12 +13,7 @@ QT_END_NAMESPACE
 #include <QLabel>
 #include <QPixmap>
 
-#define VIDE        1
-#define CASE_ROI    2
-#define CASE_BLOQUE 3
-#define PIECE_BLANC 4
-#define PIECE_NOIR  5
-#define PIECE_ROI   6
+#include "MaitreDuJeu.h"
 
 const QString PATH = "src/resource/";
 const QString CURSEUR = PATH + "curseur.png";
@@ -42,6 +37,8 @@ private:
 	int temp;
 
 	QPixmap *m_pixmap;
+
+	MaitreDuJeu *maitre;
 public:
 	MainWindow();
 	~MainWindow();

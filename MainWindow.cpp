@@ -5,7 +5,6 @@
 MainWindow::MainWindow()
 {
 	setWindowTitle("Hnefatafl");  
-	  
 
 	for (int x = 0; x < 13; x++)
 	{
@@ -43,6 +42,9 @@ MainWindow::MainWindow()
 	m_pixmap = new QPixmap(CURSEUR);
 	m_curseur->setPixmap(*m_pixmap);
 	m_curseur->setGeometry(QRect(QPoint(m_x * 46, m_y * 46), QSize(49, 49)));
+
+
+	maitre = new MaitreDuJeu(m_etatJeu);
 
 }
 
@@ -88,7 +90,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 			m_YPick = m_y;
 			m_pick = true;
 		}
-		else if (m_pick && m_etatJeu[m_x][m_y] < 4)
+		else if (m_pick && maitre->mouvementLegal(m_XPick, m_YPick, m_x, m_y) && m_etatJeu[m_x][m_y] < 4)
 		{  
 			temp = m_etatJeu[m_x][m_y];
 			m_etatJeu[m_x][m_y] = m_etatJeu[m_XPick][m_YPick];
