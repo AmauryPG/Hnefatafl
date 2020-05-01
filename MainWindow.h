@@ -23,12 +23,13 @@ class MainWindow : public QWidget
 	Q_OBJECT
 private:    
 	QLabel *m_tableJeu[13][13];
+	QLabel *m_background;
 	QLabel *m_piecesBlanc[12];
 	QLabel *m_pieces;
 	QLabel *m_piecesNoir[24];
 	QLabel *m_curseur;
 
-	int m_etatJeu[13][13];
+	int m_etatJeu[11][11];
 	int m_x = 0;
 	int m_y = 0;
 	bool m_pick = false;
@@ -36,9 +37,7 @@ private:
 	int m_YPick;
 	int temp;
 
-	QPixmap *m_pixmap;
-
-	MaitreDuJeu *maitre;
+	QPixmap *m_pixmap; 
 public:
 	MainWindow();
 	~MainWindow();

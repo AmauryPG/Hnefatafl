@@ -6,45 +6,48 @@ MainWindow::MainWindow()
 {
 	setWindowTitle("Hnefatafl");  
 
-	for (int x = 0; x < 13; x++)
+	for (int x = 0; x < 11; x++)
 	{
-		for (int y = 0; y < 13; y++)
+		for (int y = 0; y < 11; y++)
 		{
 			m_etatJeu[x][y] = VIDE;
 		}
-	}
-
-	//coin
-	m_etatJeu[0][0] = CASE_ROI;
-	m_etatJeu[12][0] = CASE_ROI;
-	m_etatJeu[0][12] = CASE_ROI;
-	m_etatJeu[12][12] = CASE_ROI;
-
-	//central
-	m_etatJeu[6][6] = CASE_BLOQUE;
+	}  
 
 	m_etatJeu[2][2] = PIECE_BLANC;
-	m_etatJeu[2][4] = PIECE_ROI;
+	m_etatJeu[5][5] = PIECE_ROI;
 	m_etatJeu[2][3] = PIECE_NOIR;
 
-	for (int x = 0; x < 13; x++)
+	m_background = new QLabel(this);
+	m_pixmap = new QPixmap(PATH + "background.png");
+	m_background->setPixmap(*m_pixmap);
+	m_background->setGeometry(QRect(QPoint(0, 0), m_pixmap->size()));
+
+	for (int x = 0; x < 11; x++)
 	{
-		for (int y = 0; y < 13; y++)
+		for (int y = 0; y < 11; y++)
 		{
-			m_tableJeu[x][y] = new QLabel(this);
-			m_pixmap = new QPixmap(PATH + "case_0" + QString::number(m_etatJeu[x][y]) + ".png");
-			m_tableJeu[x][y]->setPixmap(*m_pixmap);
-			m_tableJeu[x][y]->setGeometry(QRect(QPoint(x * 46, y * 46), QSize(49,49))); 
+			if (m_etatJeu[x][y] != VIDE)
+			{
+				m_tableJeu[x][y] = new QLabel(this);
+				m_pixmap = new QPixmap(PATH + "case_0" + QString::number(m_etatJeu[x][y]) + ".png");
+				m_tableJeu[x][y]->setPixmap(*m_pixmap);
+				m_tableJeu[x][y]->setGeometry(QRect(QPoint(x * 44, y * 44), QSize(49, 49)));
+			}
+			else
+			{
+				m_tableJeu[x][y] = new QLabel(this);
+				m_pixmap = new QPixmap(PATH + "case_04.png");
+				m_tableJeu[x][y]->setPixmap(*m_pixmap);
+				m_tableJeu[x][y]->setGeometry(QRect(QPoint(x * 44, y * 44), QSize(49, 49)));
+			}
 		}
 	}  
 
 	m_curseur = new QLabel(this);
 	m_pixmap = new QPixmap(CURSEUR);
 	m_curseur->setPixmap(*m_pixmap);
-	m_curseur->setGeometry(QRect(QPoint(m_x * 46, m_y * 46), QSize(49, 49)));
-
-
-	maitre = new MaitreDuJeu(m_etatJeu);
+	m_curseur->setGeometry(QRect(QPoint(m_x * 44, m_y * 44), QSize(49, 49)));
 
 }
 
@@ -52,14 +55,7 @@ MainWindow::~MainWindow()
 {  
 	delete m_pixmap;  
 
-	//effacer le tableau
-	for (int x = 0; x < 13; x++)
-	{
-		for (int y = 0; y < 13; y++)
-		{
-			delete m_tableJeu[x][y];
-		}
-	}
+	//effacer le tablea 
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
@@ -75,40 +71,39 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 			m_x--;
 		break;
 	case Qt::Key_S:
-		if(m_y < 12)
+		if(m_y < 10)
 			m_y++;
 		break;
 	case Qt::Key_D:
-		if (m_x < 12)
+		if (m_x < 10)
 			m_x++;
 		break;
 	//le enter offert par qt ne marcher pas. Peut etre a cause de machine ou pas.
-	case 16777220: 
-		if (!m_pick && m_etatJeu[m_x][m_y] > 3)
+	case 16777220:  
+		//prend la piece
+		if (!m_pick && m_etatJeu[m_x][m_y] != VIDE)
 		{ 
 			m_XPick = m_x;
 			m_YPick = m_y;
 			m_pick = true;
 		}
-		else if (m_pick && maitre->mouvementLegal(m_XPick, m_YPick, m_x, m_y) && m_etatJeu[m_x][m_y] < 4)
-		{  
-			temp = m_etatJeu[m_x][m_y];
-			m_etatJeu[m_x][m_y] = m_etatJeu[m_XPick][m_YPick];
-			m_etatJeu[m_XPick][m_YPick] = temp; 
-
+		//relache la piece
+		else if (m_pick && mouvementLegal(m_XPick, m_YPick, m_x, m_y, m_etatJeu))
+		{ 
+			//changer les images de place
 			m_pixmap = new QPixmap(PATH + "case_0" + QString::number(m_etatJeu[m_x][m_y]) + ".png");
 			m_tableJeu[m_x][m_y]->setPixmap(*m_pixmap);
-			m_tableJeu[m_x][m_y]->setGeometry(QRect(QPoint(m_x * 46, m_y * 46), QSize(49, 49)));
+			m_tableJeu[m_x][m_y]->setGeometry(QRect(QPoint(m_x * 44, m_y * 44), QSize(49, 49)));
 
-			m_pixmap = new QPixmap(PATH + "case_0" + QString::number(m_etatJeu[m_XPick][m_YPick]) + ".png");
+			m_pixmap = new QPixmap(PATH + "case_04.png");
 			m_tableJeu[m_XPick][m_YPick]->setPixmap(*m_pixmap);
-			m_tableJeu[m_XPick][m_YPick]->setGeometry(QRect(QPoint(m_XPick * 46, m_YPick * 46), QSize(49, 49)));
+			m_tableJeu[m_XPick][m_YPick]->setGeometry(QRect(QPoint(m_XPick * 44, m_YPick * 44), QSize(49, 49)));
 
 			m_pick = false;
 		}
 		break;
 	} 
-	m_curseur->setGeometry(QRect(QPoint(m_x * 46, m_y * 46), QSize(49, 49)));
+	m_curseur->setGeometry(QRect(QPoint(m_x * 44, m_y * 44), QSize(49, 49)));
 }
 
 void MainWindow::keyReleaseEvent(QKeyEvent *event)
