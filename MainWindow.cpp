@@ -15,6 +15,7 @@ MainWindow::MainWindow()
 	}  
 
 	m_etatJeu[2][2] = PIECE_BLANC;
+	m_etatJeu[2][0] = PIECE_BLANC;
 	m_etatJeu[5][5] = PIECE_ROI;
 	m_etatJeu[2][3] = PIECE_NOIR;
 
@@ -27,20 +28,10 @@ MainWindow::MainWindow()
 	{
 		for (int y = 0; y < 11; y++)
 		{
-			if (m_etatJeu[x][y] != VIDE)
-			{
-				m_tableJeu[x][y] = new QLabel(this);
-				m_pixmap = new QPixmap(PATH + "case_0" + QString::number(m_etatJeu[x][y]) + ".png");
-				m_tableJeu[x][y]->setPixmap(*m_pixmap);
-				m_tableJeu[x][y]->setGeometry(QRect(QPoint(x * 44, y * 44), QSize(49, 49)));
-			}
-			else
-			{
-				m_tableJeu[x][y] = new QLabel(this);
-				m_pixmap = new QPixmap(PATH + "case_04.png");
-				m_tableJeu[x][y]->setPixmap(*m_pixmap);
-				m_tableJeu[x][y]->setGeometry(QRect(QPoint(x * 44, y * 44), QSize(49, 49)));
-			}
+			m_tableJeu[x][y] = new QLabel(this);
+			m_pixmap = new QPixmap(PATH + "case_0" + QString::number(m_etatJeu[x][y]) + ".png");
+			m_tableJeu[x][y]->setPixmap(*m_pixmap);
+			m_tableJeu[x][y]->setGeometry(QRect(QPoint(x * 44, y * 44), QSize(49, 49)));
 		}
 	}  
 
@@ -95,9 +86,41 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 			m_tableJeu[m_x][m_y]->setPixmap(*m_pixmap);
 			m_tableJeu[m_x][m_y]->setGeometry(QRect(QPoint(m_x * 44, m_y * 44), QSize(49, 49)));
 
-			m_pixmap = new QPixmap(PATH + "case_04.png");
+			m_pixmap = new QPixmap(CASE_VIDE);
 			m_tableJeu[m_XPick][m_YPick]->setPixmap(*m_pixmap);
 			m_tableJeu[m_XPick][m_YPick]->setGeometry(QRect(QPoint(m_XPick * 44, m_YPick * 44), QSize(49, 49)));
+			 
+			switch (capture(m_x, m_y, m_etatJeu))
+			{
+			case HAUT:
+				m_pixmap = new QPixmap(CASE_VIDE);
+				m_tableJeu[m_x][m_y - 1]->setPixmap(*m_pixmap);
+				m_tableJeu[m_x][m_y - 1]->setGeometry(QRect(QPoint(m_x * 44, (m_y - 1) * 44), QSize(49, 49)));
+
+				m_etatJeu[m_x][m_y - 1] = VIDE;
+				break;
+			case BAS:
+				m_pixmap = new QPixmap(CASE_VIDE);
+				m_tableJeu[m_x][m_y + 1]->setPixmap(*m_pixmap);
+				m_tableJeu[m_x][m_y + 1]->setGeometry(QRect(QPoint(m_x * 44, (m_y + 1) * 44), QSize(49, 49)));
+
+				m_etatJeu[m_x][m_y + 1] = VIDE;
+				break;
+			case DROIT:
+				m_pixmap = new QPixmap(CASE_VIDE);
+				m_tableJeu[m_x + 1][m_y]->setPixmap(*m_pixmap);
+				m_tableJeu[m_x + 1][m_y]->setGeometry(QRect(QPoint((m_x + 1) * 44, m_y * 44), QSize(49, 49)));
+
+				m_etatJeu[m_x + 1][m_y] = VIDE;
+				break;
+			case GAUCHE:
+				m_pixmap = new QPixmap(CASE_VIDE);
+				m_tableJeu[m_x - 1][m_y]->setPixmap(*m_pixmap);
+				m_tableJeu[m_x - 1][m_y]->setGeometry(QRect(QPoint((m_x - 1) * 44, m_y * 44), QSize(49, 49)));
+
+				m_etatJeu[m_x - 1][m_y] = VIDE;
+				break;
+			}
 
 			m_pick = false;
 		}

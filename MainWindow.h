@@ -17,6 +17,7 @@ QT_END_NAMESPACE
 
 const QString PATH = "src/resource/";
 const QString CURSEUR = PATH + "curseur.png";
+const QString CASE_VIDE = PATH + "case_04.png";
 
 class MainWindow : public QWidget
 {
