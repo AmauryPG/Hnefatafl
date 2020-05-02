@@ -14,8 +14,11 @@ MainWindow::MainWindow()
 		}
 	}  
 
-	m_etatJeu[2][2] = PIECE_BLANC;
-	m_etatJeu[2][0] = PIECE_BLANC;
+	m_etatJeu[0][5] = PIECE_BLANC;
+	m_etatJeu[1][5] = PIECE_NOIR;
+	m_etatJeu[4][5] = PIECE_NOIR;
+	m_etatJeu[3][5] = PIECE_NOIR;
+	m_etatJeu[2][5] = PIECE_NOIR;
 	m_etatJeu[5][5] = PIECE_ROI;
 	m_etatJeu[2][3] = PIECE_NOIR;
 
@@ -119,6 +122,12 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 				m_tableJeu[m_x - 1][m_y]->setGeometry(QRect(QPoint((m_x - 1) * 44, m_y * 44), QSize(49, 49)));
 
 				m_etatJeu[m_x - 1][m_y] = VIDE;
+				break;
+			case DEFAIT_NOIR:
+				cout << "les noir on perdu" << endl;
+				break;
+			case DEFAIT_BLANC:
+				cout << "les blanc on perdu" << endl;
 				break;
 			}
 
