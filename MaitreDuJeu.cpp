@@ -105,6 +105,52 @@ bool mouvementLegal(int x, int y, int nx, int ny, int m_etatJeu[11][11])
 {
 	if (m_etatJeu[nx][ny] == VIDE && (x == nx || y == ny))
 	{
+		if (y == ny)
+		{ 
+			if (x > nx)
+			{
+				for (int i = nx; i < x; i++)
+				{
+					if (m_etatJeu[i][y] != VIDE)
+					{
+						return false;
+					}
+				}
+			}
+			else
+			{
+				for (int i = nx; i > x; i--)
+				{
+					if (m_etatJeu[i][y] != VIDE)
+					{
+						return false;
+					}
+				}
+			}
+		}
+		else
+		{
+			if (y > ny)
+			{
+				for (int i = ny; i < y; i++)
+				{
+					if (m_etatJeu[x][i] != VIDE)
+					{
+						return false;
+					}
+				}
+			}
+			else
+			{
+				for (int i = ny; i > y; i--)
+				{
+					if (m_etatJeu[x][i] != VIDE)
+					{
+						return false;
+					}
+				}
+			}
+		}
 		m_etatJeu[nx][ny] = m_etatJeu[x][y];
 		m_etatJeu[x][y] = VIDE; 
 		return true;
