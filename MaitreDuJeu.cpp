@@ -43,8 +43,8 @@ int capture(int x, int y, int m_etatJeu[11][11])
 
 
 	//on verifie pour les autres pieces
-	if (couleurPieceBouger == PIECE_BLANC)
-	{
+	if (couleurPieceBouger == PIECE_BLANC || couleurPieceBouger == PIECE_ROI)
+	{ 
 		couleurPieceOpposee = PIECE_NOIR;
 	}
 	else
@@ -52,22 +52,23 @@ int capture(int x, int y, int m_etatJeu[11][11])
 		couleurPieceOpposee = PIECE_BLANC;
 	}
 
-	if (x + 2 < 11 && m_etatJeu[x + 1][y] == couleurPieceOpposee && m_etatJeu[x + 2][y] == couleurPieceBouger)
+	//on verifie les conditions de capture de la piece
+	if (x + 2 < 11 && m_etatJeu[x + 1][y] == couleurPieceOpposee && m_etatJeu[x + 2][y] != couleurPieceOpposee && m_etatJeu[x + 2][y] != VIDE)
 	{
 		//piece est capturer
 		return DROIT;
 	}
-	else if (x - 2 >= 0 && m_etatJeu[x - 1][y] == couleurPieceOpposee && m_etatJeu[x - 2][y] == couleurPieceBouger)
+	else if (x - 2 >= 0 && m_etatJeu[x - 1][y] == couleurPieceOpposee && m_etatJeu[x - 2][y] != couleurPieceOpposee && m_etatJeu[x - 2][y] != VIDE)
 	{
 		//piece est capturer
 		return GAUCHE;
 	}
-	else if (y + 2 < 11 && m_etatJeu[x][y + 1] == couleurPieceOpposee && m_etatJeu[x][y + 2] == couleurPieceBouger)
+	else if (y + 2 < 11 && m_etatJeu[x][y + 1] == couleurPieceOpposee && m_etatJeu[x][y + 2] != couleurPieceOpposee && m_etatJeu[x][y + 2] != VIDE)
 	{
 		//piece est capturer
 		return BAS;
 	}
-	else if (y - 2 >= 0 && m_etatJeu[x][y - 1] == couleurPieceOpposee && m_etatJeu[x][y - 2] == couleurPieceBouger)
+	else if (y - 2 >= 0 && m_etatJeu[x][y - 1] == couleurPieceOpposee && m_etatJeu[x][y - 2] != couleurPieceOpposee && m_etatJeu[x][y - 2] != VIDE)
 	{
 		//piece est capturer
 		return HAUT;
@@ -90,7 +91,7 @@ int captureRoi(int x, int y, int m_etatJeu[11][11])
 
 int victoireRoi(int x, int y)
 {
-	if (x == 0 && y == 0)
+	if ((x == 0 && y == 0) || (x == 0 && y == 10) || (x == 10 && y == 0) || (x == 10 && y == 10))
 	{
 		return DEFAIT_NOIR;
 	}
