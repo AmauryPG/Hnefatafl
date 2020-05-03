@@ -105,6 +105,7 @@ bool mouvementLegal(int x, int y, int nx, int ny, int m_etatJeu[11][11])
 {
 	if (m_etatJeu[nx][ny] == VIDE && (x == nx || y == ny))
 	{
+		//gere les collisions
 		if (y == ny)
 		{ 
 			if (x > nx)
@@ -151,6 +152,8 @@ bool mouvementLegal(int x, int y, int nx, int ny, int m_etatJeu[11][11])
 				}
 			}
 		}
+
+		//echange les etats + retourne vrai pour que le mouvement soit legal
 		m_etatJeu[nx][ny] = m_etatJeu[x][y];
 		m_etatJeu[x][y] = VIDE; 
 		return true;
