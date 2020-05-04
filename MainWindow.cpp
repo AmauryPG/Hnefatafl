@@ -116,7 +116,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 	//le enter offert par qt ne marcher pas. Peut etre a cause de machine ou pas.
 	case 16777220:  
 		//prend la piece
-		if (!m_pick && m_etatJeu[m_x][m_y] != VIDE)
+		if (!m_pick && m_etatJeu[m_x][m_y] != VIDE && m_etatJeu[m_x][m_y] == m_tour)
 		{ 
 			m_XPick = m_x;
 			m_YPick = m_y;
@@ -173,6 +173,15 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 					cout << "les blanc on perdu" << endl;
 					break;
 				}
+			}
+
+			if (m_tour == TOUR_BLANC)
+			{
+				m_tour = TOUR_NOIR;
+			}
+			else
+			{
+				m_tour = TOUR_BLANC;
 			}
 
 			m_pick = false;

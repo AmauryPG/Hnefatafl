@@ -19,6 +19,9 @@ const QString PATH = "src/resource/";
 const QString CURSEUR = PATH + "curseur.png";
 const QString CASE_VIDE = PATH + "case_04.png";
 
+#define TOUR_NOIR 2
+#define TOUR_BLANC 1 
+
 class MainWindow : public QWidget
 {
 	Q_OBJECT
@@ -37,6 +40,7 @@ private:
 	int m_XPick;
 	int m_YPick;
 	int temp;
+	int m_tour = TOUR_NOIR;
 
 	QPixmap *m_pixmap; 
 public:
